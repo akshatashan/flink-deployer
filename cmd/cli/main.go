@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"log"
 	"net/http"
@@ -190,6 +191,11 @@ func main() {
 
 	client := retryablehttp.NewClient()
 	client.HTTPClient = &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		},
 		Timeout: time.Second * time.Duration(flinkAPITimeoutSeconds),
 	}
 
